@@ -1,5 +1,13 @@
 # Pinkies Up!
 
+## v1.0.3
+
+### Fixed
+- The minimap button now shows up for everyone, not just people with certain other addons installed.
+
+### New
+- The NerdyBertie page in Options → AddOns now lists Chum Chimes, a friendly chime when guildies or friends are in your zone or right near you.
+
 ## v1.0.2
 
 ### New
