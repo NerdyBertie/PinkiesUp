@@ -1,4 +1,5 @@
-<p align=center><img width="256" height="256" alt="PinkiesUp-teatime" src="REPLACE-WITH-UPLOADED-IMAGE-URL" /></p>
+<p align=center><img width="256" height="256" alt="pinkiesup" src="https://github.com/user-attachments/assets/72ecc36a-53d7-4694-9dad-8e1f56e3cb20" /></p>
+
 
 # Pinkies Up!
 
