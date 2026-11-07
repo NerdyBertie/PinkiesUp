@@ -1,5 +1,12 @@
 # Pinkies Up!
 
+## v1.0.1
+
+### New
+- The toast's title now wears a pretty gradient. Everyday achievements get one of three at random: Teatime (gold to lavender), the fish's own green, gold and purple, or Sunset Tea (peach, rose and lavender).
+- Feats of Strength get a rainbow title, so you'll know a rare one when you see it.
+- Added a test for it: `/pinkies test feat` shows a Feat of Strength toast.
+
 ## v1.0.0
 
 ### New

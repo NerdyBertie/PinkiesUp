@@ -67,6 +67,15 @@ local SAYINGS = {
     "Quite the feather in your cap!",
 }
 
+-- Title gradients. Everyday achievements get one of these at random...
+local GRADIENTS = {
+    { "F2D28B", "E3C27A", "C9A6E8", "B48CE0" },   -- Teatime: gold to lavender
+    { "7CE05A", "E3C27A", "B48CE0" },             -- The fish himself: green, gold, purple
+    { "FFC48A", "FF8FB1", "B48CE0" },             -- Sunset tea: peach, rose, lavender
+}
+-- ...and Feats of Strength get the rainbow, so it always means "ooh, a rare one!"
+local RAINBOW = { "FF6B6B", "FFB347", "FFE66D", "7CE05A", "6BC5FF", "B48CE0" }
+
 -- Feats of Strength (worth 0 points) get their own sayings
 local FEAT_SAYINGS = {
     "A Feat of Strength! How very posh.",
@@ -91,6 +100,34 @@ end
 
 local function Color(hex, text)
     return "|cff" .. hex .. text .. "|r"
+end
+
+-- Colors each letter along a list of color stops, for gradient titles
+local function GradientText(text, stops)
+    local letters = {}
+    for char in text:gmatch("[%z\1-\127\194-\244][\128-\191]*") do letters[#letters + 1] = char end
+    if #stops < 2 or #letters < 2 then return text end
+    local out = {}
+    for i, char in ipairs(letters) do
+        local pos = (i - 1) / (#letters - 1) * (#stops - 1)
+        local a = math.floor(pos) + 1
+        local b = math.min(a + 1, #stops)
+        local t = pos - (a - 1)
+        local r1, g1, b1 = tonumber(stops[a]:sub(1, 2), 16), tonumber(stops[a]:sub(3, 4), 16), tonumber(stops[a]:sub(5, 6), 16)
+        local r2, g2, b2 = tonumber(stops[b]:sub(1, 2), 16), tonumber(stops[b]:sub(3, 4), 16), tonumber(stops[b]:sub(5, 6), 16)
+        out[#out + 1] = ("|cff%02x%02x%02x%s|r"):format(
+            math.floor(r1 + (r2 - r1) * t), math.floor(g1 + (g2 - g1) * t), math.floor(b1 + (b2 - b1) * t), char)
+    end
+    return table.concat(out)
+end
+
+-- Picks an everyday gradient, never the same one twice in a row
+local lastGradient
+local function PickGradient()
+    local index
+    repeat index = math.random(#GRADIENTS) until index ~= lastGradient or #GRADIENTS == 1
+    lastGradient = index
+    return GRADIENTS[index]
 end
 
 local function Print(msg)
@@ -191,7 +228,8 @@ end
 local function Display(t)
     showing, fading = true, false
     toast.current = t
-    toast.title:SetText(t.title)
+    -- The front copy wears the gradient; the plain back copy is the dark "3D" shadow
+    toast.title:SetText(t.gradient and GradientText(t.title, t.gradient) or t.title)
     toast.titleBack:SetText(t.title)
     toast.subtitle:SetText(t.subtitle)
     toast.badge:SetTexture(t.icon)
@@ -217,6 +255,7 @@ function ShowNext()
         overflow = 0
         Display({
             title = "And " .. count .. " more! Goodness!",
+            gradient = GRADIENTS[1],
             subtitle = "Open your achievements to see them all.",
             duration = 4,
         })
@@ -301,14 +340,16 @@ end)
 ---------------------------------------------------------------------------
 -- Celebrating
 ---------------------------------------------------------------------------
-local function Celebrate(achievementID, isTest)
+local function Celebrate(achievementID, isTest, testFeat)
     if not isTest then
         if not PinkiesUpDB.enabled then return end
         if PinkiesUpDB.stepAside and HeraldIsToasting() then return end
     end
 
     local name, points, icon, isGuild
-    if GetAchievementInfo then
+    if testFeat then
+        name, points, achievementID = "A Very Fancy Feat of Strength", 0, nil
+    elseif GetAchievementInfo then
         local info = { pcall(GetAchievementInfo, achievementID) }
         if info[1] then
             name, points, icon, isGuild = info[3], info[4], info[11], info[13]
@@ -319,7 +360,8 @@ local function Celebrate(achievementID, isTest)
         name, points, icon, achievementID = "A Very Fancy Test Achievement", 10, nil, nil
     end
 
-    local title = (points == 0) and PickSaying(FEAT_SAYINGS) or PickSaying(SAYINGS)
+    local isFeat = (points == 0)
+    local title = isFeat and PickSaying(FEAT_SAYINGS) or PickSaying(SAYINGS)
     local subtitle = name
     if isGuild then subtitle = "Your guild earned: " .. name end
     if PinkiesUpDB.showPoints and points and points > 0 then
@@ -328,6 +370,7 @@ local function Celebrate(achievementID, isTest)
 
     Queue({
         title = title,
+        gradient = isFeat and RAINBOW or PickGradient(),
         subtitle = subtitle,
         icon = icon,
         achievementID = achievementID,
@@ -507,6 +550,8 @@ SlashCmdList.PINKIESUP = function(msg)
         OpenSettings()
     elseif cmd == "test" then
         Celebrate(6, true)       -- "Level 10" in Retail; a pretend one anywhere it doesn't exist
+    elseif cmd == "test feat" then
+        Celebrate(nil, true, true)
     elseif cmd == "reset" then
         ResetPosition()
         Print("toast moved back to its starting spot.")
@@ -514,6 +559,6 @@ SlashCmdList.PINKIESUP = function(msg)
         PinkiesUpDB.enabled = (cmd == "on")
         Print("achievement toasts " .. (PinkiesUpDB.enabled and "on." or "off."))
     else
-        Print("commands: /pinkies (settings), /pinkies test, /pinkies reset, /pinkies on, /pinkies off")
+        Print("commands: /pinkies (settings), /pinkies test, /pinkies test feat, /pinkies reset, /pinkies on, /pinkies off")
     end
 end

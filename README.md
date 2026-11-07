@@ -11,7 +11,8 @@ Works in **Retail** and **WoW Forever**, where Legacy Challenges get a toast too
 
 - **A grats for every achievement.** A small toast pops up near the top of your screen with a random saying, the achievement's name and its points.
 - **40-some sayings.** "Pinkies up!", "Boom shakalaka!", "Earl Grey-t job!", "Well, butter my crumpet!" and plenty more. The same one won't come up twice in a row.
-- **Feats of Strength get the fancy treatment.** Zero points, infinite bragging rights!
+- **Pretty gradient titles.** Every saying wears one of three soft gradients: Teatime, the fish's own colors, or Sunset Tea.
+- **Feats of Strength get the fancy treatment.** A rainbow title and their own sayings. Zero points, infinite bragging rights!
 - **Clickable.** Click the toast to open the achievement, or shift-click to link it in chat and show off.
 - **Hover to keep it.** The toast waits while your mouse is over it.
 - **Move it anywhere.** Drag the toast where you like. It remembers the spot.
@@ -23,6 +24,7 @@ Works in **Retail** and **WoW Forever**, where Legacy Challenges get a toast too
 
 - `/pinkies`: open settings
 - `/pinkies test`: show a test toast (handy for dragging it into place)
+- `/pinkies test feat`: show a test Feat of Strength toast, rainbow and all
 - `/pinkies reset`: move the toast back to its starting spot
 - `/pinkies on` / `/pinkies off`: turn the toasts on or off
 - Addon compartment (the puzzle piece by the minimap): left-click for settings, right-click for a test toast
