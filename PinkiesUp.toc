@@ -1,0 +1,16 @@
+## Interface: 120100, 120105, 16001
+## Title: Pinkies Up!
+## Notes: A tea-sipping fish says "grats" with a silly saying every time you earn an achievement (or a Legacy Challenge in WoW Forever).
+## Author: NerdyBertie
+## Category: NerdyBertie
+## Version: @project-version@
+## IconTexture: Interface\AddOns\PinkiesUp\Media\teatime
+## SavedVariables: PinkiesUpDB
+## AddonCompartmentFunc: PinkiesUp_OnAddonCompartmentClick
+## AddonCompartmentFuncOnEnter: PinkiesUp_OnAddonCompartmentEnter
+## AddonCompartmentFuncOnLeave: PinkiesUp_OnAddonCompartmentLeave
+## X-Curse-Project-ID: 1788550
+## X-WoWI-ID: 27297
+## X-Wago-ID: rN4rgvKD
+
+PinkiesUp.lua
