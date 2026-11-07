@@ -1,5 +1,11 @@
 # Pinkies Up!
 
+## v1.0.2
+
+### New
+- Pinkies Up! now has its own minimap button. Left-click for settings, right-click for a test toast. You can hide it with the new "Minimap button" checkbox in the settings.
+- The button works with minimap button bars that gather buttons into one tray.
+
 ## v1.0.1
 
 ### New

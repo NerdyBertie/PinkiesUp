@@ -27,11 +27,11 @@ Works in **Retail** and **WoW Forever**, where Legacy Challenges get a toast too
 - `/pinkies test feat`: show a test Feat of Strength toast, rainbow and all
 - `/pinkies reset`: move the toast back to its starting spot
 - `/pinkies on` / `/pinkies off`: turn the toasts on or off
-- Addon compartment (the puzzle piece by the minimap): left-click for settings, right-click for a test toast
+- Minimap button and addon compartment (the puzzle piece by the minimap): left-click for settings, right-click for a test toast
 
 ## Settings
 
-Find them under **Options → AddOns → NerdyBertie → Pinkies Up!**: turn the toast on or off, show or hide the points, add a chat line, step aside for Holiday Herald, show a test toast, and reset the toast's position.
+Find them under **Options → AddOns → NerdyBertie → Pinkies Up!**: turn the toast on or off, show or hide the points, show or hide the minimap button, add a chat line, step aside for Holiday Herald, show a test toast, and reset the toast's position.
 
 The AddOns and Options menus group my addons together, so you can find them all under the NerdyBertie heading.
 

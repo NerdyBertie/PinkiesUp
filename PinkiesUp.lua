@@ -13,6 +13,7 @@ local DB_DEFAULTS = {
     showPoints  = true,    -- "(10 points)" after the achievement name
     chatLine    = false,   -- also print a grats line in your own chat window
     stepAside   = true,    -- stay quiet if Holiday Herald's own achievement toast is on
+    showMinimap = true,    -- show the Pinkies Up! button on the minimap
 }
 
 local MASCOT      = "Interface\\AddOns\\" .. ADDON .. "\\Media\\teatime"
@@ -386,6 +387,7 @@ end
 -- Settings panel (Options > AddOns > NerdyBertie > Pinkies Up!)
 ---------------------------------------------------------------------------
 local settingsCategory
+local SetMinimapShown   -- defined with the minimap button below
 
 -- Shared "NerdyBertie" heading: whichever NerdyBertie addon loads first creates it.
 -- Every NerdyBertie addon carries this same function, the same list, and the
@@ -464,6 +466,7 @@ local function BuildSettings()
         local setting = Settings.RegisterAddOnSetting(category, "PinkiesUp_" .. key, key,
             PinkiesUpDB, type(DB_DEFAULTS[key]), label, DB_DEFAULTS[key])
         Settings.CreateCheckbox(category, setting, tooltip)
+        return setting
     end
     local function Button(label, buttonText, onClick, tooltip)
         layout:AddInitializer(CreateSettingsButtonInitializer(label, buttonText, onClick, tooltip, true))
@@ -477,6 +480,16 @@ local function BuildSettings()
         "Prints the saying and a link to the achievement in your own chat window. Only you can see it.")
     Checkbox("stepAside", "Stay quiet if Holiday Herald's toast is on",
         "Holiday Herald has its own achievement toast. With this on, Pinkies Up! steps aside while that one is turned on, so you never get two toasts for one achievement.")
+    do
+        local setting = Checkbox("showMinimap", "Minimap button",
+            "Show the Pinkies Up! button on the minimap. Left-click it for settings, right-click for a test toast.")
+        local function OnChanged(_, value) SetMinimapShown(value) end
+        if setting.SetValueChangedCallback then
+            setting:SetValueChangedCallback(OnChanged)
+        elseif Settings.SetOnValueChangedCallback then
+            Settings.SetOnValueChangedCallback("PinkiesUp_showMinimap", OnChanged)
+        end
+    end
     Button("Try it out", "Show a test toast", function() Celebrate(6, true) end,
         "Shows a toast right now, so you can see it and drag it where you like.")
     Button("Toast position", "Reset position", ResetPosition,
@@ -499,18 +512,55 @@ local function OpenSettings()
 end
 
 ---------------------------------------------------------------------------
--- Addon compartment (the little puzzle-piece menu by the minimap)
--- These must be true globals: the .toc refers to them by name
+-- Minimap button and addon compartment (the puzzle-piece menu by the minimap)
+-- Left-click opens settings, right-click shows a test toast.
 ---------------------------------------------------------------------------
-function PinkiesUp_OnAddonCompartmentClick(_, button)
+local function HandleIconClick(button)
     if button == "RightButton" then Celebrate(6, true) else OpenSettings() end
+end
+
+local function AddIconTooltip(tooltip)
+    tooltip:AddLine("Pinkies Up!", Hex(COLORS.main))
+    tooltip:AddLine("Left-click: open settings", 0.8, 0.8, 0.8)
+    tooltip:AddLine("Right-click: show a test toast", 0.8, 0.8, 0.8)
+end
+
+-- The button's behind-the-scenes name. It deliberately avoids the letters "Pin":
+-- some minimap button bars skip anything with "Pin" in its name, thinking it's a map pin.
+local ICON_NAME = "NerdyBertieTeaFish"
+
+local function CreateMinimapButton()
+    local LDB = LibStub and LibStub("LibDataBroker-1.1", true)
+    local DBIcon = LibStub and LibStub("LibDBIcon-1.0", true)
+    if not LDB or not DBIcon then return end
+
+    local dataObject = LDB:NewDataObject(ICON_NAME, {
+        type = "launcher",
+        label = "Pinkies Up!",
+        icon = MASCOT,
+        OnClick = function(_, button) HandleIconClick(button) end,
+        OnTooltipShow = AddIconTooltip,
+    })
+    PinkiesUpDB.minimapIcon.hide = not PinkiesUpDB.showMinimap
+    DBIcon:Register(ICON_NAME, dataObject, PinkiesUpDB.minimapIcon)
+end
+
+SetMinimapShown = function(shown)
+    local DBIcon = LibStub and LibStub("LibDBIcon-1.0", true)
+    PinkiesUpDB.minimapIcon.hide = not shown
+    if DBIcon then
+        if shown then DBIcon:Show(ICON_NAME) else DBIcon:Hide(ICON_NAME) end
+    end
+end
+
+-- These must be true globals: the .toc refers to them by name
+function PinkiesUp_OnAddonCompartmentClick(_, button)
+    HandleIconClick(button)
 end
 
 function PinkiesUp_OnAddonCompartmentEnter(_, button)
     GameTooltip:SetOwner(button, "ANCHOR_LEFT")
-    GameTooltip:AddLine("Pinkies Up!", Hex(COLORS.main))
-    GameTooltip:AddLine("Left-click: open settings", 0.8, 0.8, 0.8)
-    GameTooltip:AddLine("Right-click: show a test toast", 0.8, 0.8, 0.8)
+    AddIconTooltip(GameTooltip)
     GameTooltip:Show()
 end
 
@@ -529,8 +579,10 @@ events:SetScript("OnEvent", function(self, event, arg1)
         for key, value in pairs(DB_DEFAULTS) do
             if PinkiesUpDB[key] == nil then PinkiesUpDB[key] = value end
         end
+        PinkiesUpDB.minimapIcon = PinkiesUpDB.minimapIcon or {}
         PlaceToast()
         SetUpSettings()
+        CreateMinimapButton()
         self:RegisterEvent("ACHIEVEMENT_EARNED")
         self:UnregisterEvent("ADDON_LOADED")
 
