@@ -18,7 +18,7 @@ Works in **Retail** and **WoW Forever**, where Legacy Challenges get a toast too
 - **Move it anywhere.** Drag the toast where you like. It remembers the spot.
 - **No screen floods.** Earn a pile at once and they take turns, finishing with "And X more! Goodness!"
 - **Optional chat line.** Also print the grats and an achievement link in your own chat window (only you see it).
-- **Plays nice with Holiday Herald.** Holiday Herald has its own achievement toast. While that one is on, Pinkies Up! politely steps aside so you never get two. Turn that off in the settings if you'd rather have the fish do the honors.
+- **Plays nice with Holiday Herald.** Holiday Herald cheers for achievements too. Whenever it's cheering, Pinkies Up! politely steps aside so you never get two. To let the fish handle everyday achievements, turn off "Toast for every achievement" in Holiday Herald. Holiday meta celebrations stay with Holiday Herald.
 
 ## Commands
 

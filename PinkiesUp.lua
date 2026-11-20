@@ -12,7 +12,7 @@ local DB_DEFAULTS = {
     enabled     = true,    -- show the toast
     showPoints  = true,    -- "(10 points)" after the achievement name
     chatLine    = false,   -- also print a grats line in your own chat window
-    stepAside   = true,    -- stay quiet if Holiday Herald's own achievement toast is on
+    stepAside   = true,    -- stay quiet whenever Holiday Herald is cheering for an achievement
     showMinimap = true,    -- show the Pinkies Up! button on the minimap
 }
 
@@ -152,11 +152,26 @@ local function PickSaying(list)
     return saying
 end
 
--- Holiday Herald (also by NerdyBertie) has its own tea-sipping achievement toast.
--- If both are installed and that one is on, step aside so you don't get two.
-local function HeraldIsToasting()
+-- Holiday Herald (also by NerdyBertie) cheers for achievements too: a big celebration
+-- for holiday meta achievements, and an optional small toast for every other one.
+-- If Holiday Herald is going to cheer for this achievement, step aside so you never get two.
+local function HeraldIsCheering(achievementID)
     local loaded = C_AddOns and C_AddOns.IsAddOnLoaded and C_AddOns.IsAddOnLoaded("HolidayHerald")
-    return loaded and HolidayHeraldDB and HolidayHeraldDB.achievementToast
+    if not loaded then return false end
+
+    -- Holiday meta celebrations (Holiday Herald 1.6.16 and newer)
+    if HolidayHerald_IsCelebrating and achievementID then
+        local ok, celebrating = pcall(HolidayHerald_IsCelebrating, achievementID)
+        if ok and celebrating then return true end
+    end
+
+    -- Everyday toasts: ask Holiday Herald if it can answer, otherwise read its setting
+    -- directly (older versions). That setting is named achievementToast for good.
+    if HolidayHerald_HandlesEverydayToasts then
+        local ok, handles = pcall(HolidayHerald_HandlesEverydayToasts)
+        if ok then return handles and true or false end
+    end
+    return (HolidayHeraldDB and HolidayHeraldDB.achievementToast) and true or false
 end
 
 ---------------------------------------------------------------------------
@@ -344,7 +359,7 @@ end)
 local function Celebrate(achievementID, isTest, testFeat)
     if not isTest then
         if not PinkiesUpDB.enabled then return end
-        if PinkiesUpDB.stepAside and HeraldIsToasting() then return end
+        if PinkiesUpDB.stepAside and HeraldIsCheering(achievementID) then return end
     end
 
     local name, points, icon, isGuild
@@ -479,8 +494,8 @@ local function BuildSettings()
         "Adds the achievement's points after its name, like \"(10 points)\".")
     Checkbox("chatLine", "Also say grats in my chat window",
         "Prints the saying and a link to the achievement in your own chat window. Only you can see it.")
-    Checkbox("stepAside", "Stay quiet if Holiday Herald's toast is on",
-        "Holiday Herald has its own achievement toast. With this on, Pinkies Up! steps aside while that one is turned on, so you never get two toasts for one achievement.")
+    Checkbox("stepAside", "Stay quiet when Holiday Herald is cheering",
+        "Holiday Herald has its own achievement cheers. With this on, Pinkies Up! steps aside whenever Holiday Herald is cheering, so you never get two for one achievement.\n\nTo let the fish handle everyday achievements, turn off \"Toast for every achievement\" in Holiday Herald. Holiday meta celebrations stay with Holiday Herald.")
     do
         local setting = Checkbox("showMinimap", "Minimap button",
             "Show the Pinkies Up! button on the minimap. Left-click it for settings, right-click for a test toast.")

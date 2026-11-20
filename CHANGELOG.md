@@ -1,5 +1,12 @@
 # Pinkies Up!
 
+## v1.0.4
+
+### Changed
+- Smoother teamwork with Holiday Herald. When you finish a holiday meta achievement, Holiday Herald's big celebration now gets the spotlight instead of you getting two cheers.
+- The setting is now called "Stay quiet when Holiday Herald is cheering", and its tooltip explains how to let the fish handle everyday achievements: turn off "Toast for every achievement" in Holiday Herald.
+- Still works the same with older versions of Holiday Herald.
+
 ## v1.0.3
 
 ### Fixed
