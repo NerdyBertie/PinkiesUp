@@ -1,4 +1,4 @@
-## Interface: 120100, 120105, 16001
+## Interface: 120100, 120105, 120107, 16001
 ## Title: Pinkies Up!
 ## Notes: A tea-sipping fish says "grats" with a silly saying every time you earn an achievement (or a Legacy Challenge in WoW Forever).
 ## Author: NerdyBertie

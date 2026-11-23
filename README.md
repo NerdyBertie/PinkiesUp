@@ -39,11 +39,24 @@ The AddOns and Options menus group my addons together, so you can find them all 
 
 MIT. See [LICENSE](LICENSE).
 
+## More from NerdyBertie
+
+If you enjoy this addon, feel free to check out my other addons!
+
+- [Holiday Herald](https://www.curseforge.com/wow/addons/holidayherald): never miss a holiday again; tips, collectibles, quests, map pins, and secrets for every in-game holiday
+- [HandyNotes: Dive Bar Front Crawl](https://www.curseforge.com/wow/addons/handynotes-dive-bar-front-crawl): map pins for every underwater Tortollan dive bar in the Dive Bar Front Crawl housing endeavor
+- [HandyNotes: Seeking The Soulstones](https://www.curseforge.com/wow/addons/handynotes-seeking-the-soulstones): map pins for the soulstones in Outland for the Warlock Green Fire questchain
+- [ItemWatch & Shopping List](https://www.curseforge.com/wow/addons/itemwatch-bag-item-counter): track how many of an item you have toward a goal, with a recipe shopping list that counts your bags, bank and warband bank
+- [Boomkin Buff Watcher](https://www.curseforge.com/wow/addons/boomkin-buff-watcher): keeps Balance Druids on top of their Astral Power and Eclipse state
+- [Chum Chimes](https://www.curseforge.com/wow/addons/chumchimes): a friendly chime when guildies or friends are in your zone or nearby
+
+Find them all by searching NerdyBertie on CurseForge, WoWInterface, WoWUp, or Wago.
+
 ---
 
-Enjoying Pinkies Up!? Consider supporting me on [Ko-fi](https://ko-fi.com/nerdybertie). Thank you!
+If you find this addon, or any of my other addons, useful, consider supporting me on [Ko-fi](https://ko-fi.com/nerdybertie) — totally optional, but always appreciated! You can also find me on Twitch, TikTok, YouTube, or Discord - NerdyBertie
 
-- Twitch: [twitch.tv/nerdybertie](https://twitch.tv/nerdybertie)
+- Twitch: [twitch.tv/nerdybertie](https://www.twitch.tv/nerdybertie)
 - TikTok: [@nerdybertie](https://www.tiktok.com/@nerdybertie)
 - YouTube: [@nerdybertie](https://www.youtube.com/@nerdybertie)
-- Discord: [discord.gg/bXbMR6rzcF](https://discord.gg/bXbMR6rzcF)
+- Discord: [discord.com/invite/bXbMR6rzcF](https://discord.com/invite/bXbMR6rzcF)
