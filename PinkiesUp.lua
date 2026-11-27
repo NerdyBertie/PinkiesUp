@@ -213,6 +213,12 @@ toast.subtitle:SetPoint("TOPLEFT", toast.titleBack, "BOTTOMLEFT", 0, -8)
 toast.subtitle:SetJustifyH("LEFT")
 toast.subtitle:SetWordWrap(true)
 
+-- A small gray signature in the bottom-right corner, so everyone can tell which addon is cheering
+toast.signature = toast:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+toast.signature:SetPoint("BOTTOMRIGHT", -8, 5)
+toast.signature:SetText("Pinkies Up!")
+toast.signature:SetTextColor(Hex(GRAY))
+
 local function PlaceToast()
     toast:ClearAllPoints()
     local pos = PinkiesUpDB and PinkiesUpDB.position
@@ -255,7 +261,8 @@ local function Display(t)
     local width = math.max(440, toast.title:GetStringWidth() + 86 + 50)
     toast:SetWidth(width)
     toast.subtitle:SetWidth(width - 86 - 20)
-    toast:SetHeight(math.max(84, 18 + toast.title:GetStringHeight() + 8 + toast.subtitle:GetStringHeight() + 18))
+    -- The bottom padding leaves room for the little signature under the text
+    toast:SetHeight(math.max(84, 18 + toast.title:GetStringHeight() + 8 + toast.subtitle:GetStringHeight() + 22))
 
     toast:SetAlpha(1)
     toast:Show()

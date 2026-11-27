@@ -1,5 +1,10 @@
 # Pinkies Up!
 
+## v1.0.6
+
+### New
+- A little gray "Pinkies Up!" now sits in the bottom-right corner of every toast, so you always know which addon is cheering.
+
 ## v1.0.5
 
 ### Updated
